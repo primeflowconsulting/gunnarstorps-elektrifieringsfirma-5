@@ -48,16 +48,6 @@
   "footer": {
     "companyName": "Gunnarstorps",
     "description": "Vi arbetar med elinstallationer av både nya och gamla objekt med över 30 års erfarenhet.",
-    "socialMedia": [
-      {
-        "platform": "facebook",
-        "url": "#"
-      },
-      {
-        "platform": "instagram",
-        "url": "#"
-      }
-    ],
     "servicesTitle": "Tjänster",
     "services": [
       {
@@ -93,7 +83,9 @@
     "contact": {
       "phone": "070 740 61 16",
       "email": "gunnarstorp1@gmail.com",
-      "address": ["Härkilavägen Gunnarstorp"],
+      "address": [
+        "Härkilavägen Gunnarstorp"
+      ],
       "postalCode": "51199",
       "city": "Sätila"
     },
