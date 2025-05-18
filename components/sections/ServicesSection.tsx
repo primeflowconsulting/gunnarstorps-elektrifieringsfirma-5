@@ -4,6 +4,7 @@ import ServiceCard from '../ui/ServiceCard';
 import Button from '../ui/Button';
 import { Service } from '@/lib/data';
 import { tinaField } from "tinacms/dist/react";
+import { PageBlocksServices } from '@/tina/__generated__/types';
 
 type ServicesSectionProps = {
   title: string;
@@ -44,7 +45,7 @@ export default function ServicesSection({
               service={featured} 
               variant="featured" 
               className="h-full" 
-              tinaField={featured._tina_metadata ? tinaField(featured._tina_metadata.parent as any, 'serviceItems', featured._tina_metadata.index) : undefined}
+              tinaField={featured._tina_metadata ? tinaField(featured._tina_metadata.parent as PageBlocksServices, 'serviceItems', featured._tina_metadata.index) : undefined}
             />
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:col-span-2">
@@ -53,7 +54,7 @@ export default function ServicesSection({
                 key={service.id} 
                 service={service} 
                 variant="compact" 
-                tinaField={service._tina_metadata ? tinaField(service._tina_metadata.parent as any, 'serviceItems', service._tina_metadata.index) : undefined}
+                tinaField={service._tina_metadata ? tinaField(service._tina_metadata.parent as PageBlocksServices, 'serviceItems', service._tina_metadata.index) : undefined}
               />
             ))}
           </div>
@@ -84,7 +85,7 @@ export default function ServicesSection({
           <ServiceCard 
             key={service.id} 
             service={service} 
-            tinaField={service._tina_metadata ? tinaField(service._tina_metadata.parent as any, 'serviceItems', service._tina_metadata.index) : undefined}
+            tinaField={service._tina_metadata ? tinaField(service._tina_metadata.parent as PageBlocksServices, 'serviceItems', service._tina_metadata.index) : undefined}
           />
         ))}
       </div>
