@@ -8,7 +8,7 @@ import CtaSection from '@/components/sections/CtaSection';
 import { services as defaultServices } from '@/lib/data';
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
-import { PageQuery } from "@/tina/__generated__/types";
+import { PageQuery, PageBlocksServicesServiceItems } from "@/tina/__generated__/types";
 
 export interface ClientPageProps {
   data: PageQuery;
@@ -54,7 +54,11 @@ export default function HomeClientPage(props: ClientPageProps) {
           case "PageBlocksServices":
             // Convert TinaCMS service items to the format expected by ServicesSection
             const serviceItems = block.serviceItems || [];
-            const mappedServices = serviceItems.map((item: any, index: number) => ({
+            // Filter out null or undefined items first
+            const validServiceItems = serviceItems.filter(Boolean) as PageBlocksServicesServiceItems[]; 
+            
+            const mappedServices = validServiceItems.map((item: PageBlocksServicesServiceItems, index: number) => ({
+              // item here is PageBlocksServicesServiceItems (non-nullable)
               id: item.id || "",
               title: item.title || "",
               description: item.description || "",

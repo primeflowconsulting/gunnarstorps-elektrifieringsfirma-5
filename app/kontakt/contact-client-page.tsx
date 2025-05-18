@@ -4,17 +4,16 @@ import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
 import Hero from '@/components/sections/Hero';
 import ContactSection from '@/components/sections/ContactSection';
+import { PageQuery, PageQueryVariables, PageBlocks } from "@/tina/__generated__/types";
 
 export interface ClientPageProps {
-  data: any;
-  variables: {
-    relativePath: string;
-  };
+  data: PageQuery;
+  variables: PageQueryVariables;
   query: string;
 }
 
 export default function ContactClientPage(props: ClientPageProps) {
-  const { data } = useTina({
+  const { data } = useTina<PageQuery>({
     query: props.query,
     variables: props.variables,
     data: props.data,
@@ -24,7 +23,7 @@ export default function ContactClientPage(props: ClientPageProps) {
 
   return (
     <>
-      {blocks.map((block: any, i: number) => {
+      {blocks.map((block: PageBlocks | null, i: number) => {
         if (!block) return null;
         
         switch (block.__typename) {
@@ -54,10 +53,17 @@ export default function ContactClientPage(props: ClientPageProps) {
                   description={block.description || ""}
                   phone={block.phone || ""}
                   email={block.email || ""}
-                  address={block.address || []}
+                  address={(block.address?.filter(a => a !== null) as string[]) || []}
                   postalCode={block.postalCode || ""}
                   city={block.city || ""}
-                  hours={block.hours || []}
+                  hours={
+                    block.hours
+                      ?.filter((h): h is NonNullable<typeof h> => h !== null)
+                      .map(h => ({
+                        days: h.days || "",
+                        hours: h.hours || "",
+                      })) || []
+                  }
                   mapUrl={block.mapUrl || ""}
                 />
               </div>

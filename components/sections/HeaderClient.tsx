@@ -6,31 +6,28 @@ import { usePathname } from 'next/navigation';
 import Container from '../ui/Container';
 import Button from '../ui/Button';
 import Icon from '../ui/Icon';
+import type { IconName } from '../ui/Icon'; // Correct type import
 import LogoWithTina from '../ui/LogoWithTina';
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
+import { GlobalQuery, GlobalQueryVariables, GlobalHeaderServices } from "@/tina/__generated__/types";
 
 export interface HeaderClientProps {
-  data: any;
-  variables: {
-    relativePath: string;
-  };
+  data: GlobalQuery;
+  variables: GlobalQueryVariables;
   query: string;
 }
 
 export default function HeaderClient(props: HeaderClientProps) {
-  const { data } = useTina({
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+
+  const { data } = useTina<GlobalQuery>({
     query: props.query,
     variables: props.variables,
     data: props.data,
   });
-
-  const header = data.global?.header;
-  if (!header) return null;
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,6 +42,9 @@ export default function HeaderClient(props: HeaderClientProps) {
     // Close mobile menu when route changes
     setIsMenuOpen(false);
   }, [pathname]);
+
+  const header = data.global?.header;
+  if (!header) return null;
 
   return (
     <header
@@ -82,7 +82,7 @@ export default function HeaderClient(props: HeaderClientProps) {
                 <div className="absolute left-0 top-full z-10 mt-0 pt-3 hidden w-64 opacity-0 transition-all duration-300 group-hover:block group-hover:opacity-100">
                   <div className="rounded-md bg-white p-2 shadow-lg" data-tina-field={tinaField(header, "services")}>
                     <ul className="space-y-1">
-                      {header.services?.map((service: any, index: number) => (
+                      {(header.services?.filter(Boolean) as GlobalHeaderServices[] | undefined)?.map((service, index: number) => (
                         <li key={service.id || index}>
                           <Link
                             href={`/${service.id}`}
@@ -91,8 +91,7 @@ export default function HeaderClient(props: HeaderClientProps) {
                             }`}
                             data-tina-field={tinaField(header.services, index)}
                           >
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            <Icon name={service.icon as any} size="sm" className="mr-2 text-blue-700" />
+                            {service.icon && <Icon name={service.icon as IconName} size="sm" className="mr-2 text-blue-700" />}
                             {service.title}
                           </Link>
                         </li>
@@ -153,7 +152,7 @@ export default function HeaderClient(props: HeaderClientProps) {
                 {header.servicesLabel || "Tjänster"}
               </h3>
               <ul className="space-y-1" data-tina-field={tinaField(header, "services")}>
-                {header.services?.map((service: any, index: number) => (
+                {(header.services?.filter(Boolean) as GlobalHeaderServices[] | undefined)?.map((service, index: number) => (
                   <li key={service.id || index}>
                     <Link
                       href={`/${service.id}`}
@@ -162,8 +161,7 @@ export default function HeaderClient(props: HeaderClientProps) {
                       }`}
                       data-tina-field={tinaField(header.services, index)}
                     >
-                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                      <Icon name={service.icon as any} size="sm" className="mr-2 text-blue-700" />
+                      {service.icon && <Icon name={service.icon as IconName} size="sm" className="mr-2 text-blue-700" />}
                       {service.title}
                     </Link>
                   </li>

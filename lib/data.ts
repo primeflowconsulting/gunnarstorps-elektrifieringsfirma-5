@@ -9,7 +9,7 @@ export type Service = {
   heroImage: string;
   icon: string;
   _tina_metadata?: {
-    parent: any;
+    parent: object; // Changed from any to object
     index: number;
   };
 };

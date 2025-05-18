@@ -4,9 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { tinaField } from "tinacms/dist/react";
+import { GlobalHeader } from "@/tina/__generated__/types";
 
 type LogoWithTinaProps = {
-  header: any;
+  header: GlobalHeader | undefined; // Allow header to be undefined
   className?: string;
 };
 

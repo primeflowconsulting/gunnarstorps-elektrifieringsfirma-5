@@ -6,17 +6,16 @@ import Hero from '@/components/sections/Hero';
 import ServiceDetails from '@/components/sections/ServiceDetails';
 import RelatedServices from '@/components/sections/RelatedServices';
 import CtaSection from '@/components/sections/CtaSection';
+import { ServiceQuery, ServiceQueryVariables } from "@/tina/__generated__/types";
 
 export interface ClientPageProps {
-  data: any;
-  variables: {
-    relativePath: string;
-  };
+  data: ServiceQuery;
+  variables: ServiceQueryVariables;
   query: string;
 }
 
 export default function ServiceClientPage(props: ClientPageProps) {
-  const { data } = useTina({
+  const { data } = useTina<ServiceQuery>({
     query: props.query,
     variables: props.variables,
     data: props.data,
@@ -31,8 +30,8 @@ export default function ServiceClientPage(props: ClientPageProps) {
     title: service.title || "",
     description: service.description || "",
     longDescription: service.longDescription || "",
-    benefits: service.benefits || [],
-    features: service.features || [],
+    benefits: (service.benefits?.filter(b => b !== null) as string[]) || [],
+    features: (service.features?.filter(f => f !== null) as string[]) || [],
     image: service.image || "",
     heroImage: service.heroImage || "",
     icon: service.icon || "",
@@ -40,7 +39,7 @@ export default function ServiceClientPage(props: ClientPageProps) {
 
   return (
     <>
-      <div data-tina-field={tinaField(service, "heroTitle")}>
+      <div data-tina-field={tinaField(service, "title")}>
         <Hero
           title={service.title?.split('|')[0]?.trim() || ""}
           subtitle={service.description || ""}
@@ -59,7 +58,14 @@ export default function ServiceClientPage(props: ClientPageProps) {
         <CtaSection
           title={service.cta?.title || "Behöver du hjälp med ditt projekt?"}
           description={service.cta?.description || "Kontakta oss idag för en kostnadsfri offert och låt oss hjälpa dig med dina elektriska behov."}
-          primaryCta={service.cta?.primaryCta || { text: 'Kontakta oss', href: '/kontakt' }}
+          primaryCta={
+            service.cta?.primaryCta
+              ? {
+                  text: service.cta.primaryCta.text || "",
+                  href: service.cta.primaryCta.href || "",
+                }
+              : { text: "Kontakta oss", href: "/kontakt" }
+          }
           background="primary"
         />
       </div>

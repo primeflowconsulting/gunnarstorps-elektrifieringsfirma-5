@@ -4,20 +4,25 @@ import React from 'react';
 import Link from 'next/link';
 import Container from '../ui/Container';
 import Icon from '../ui/Icon';
-import { services } from '@/lib/data';
 import { useTina } from "tinacms/dist/react";
 import { tinaField } from "tinacms/dist/react";
+import { 
+  GlobalQuery, 
+  GlobalQueryVariables, 
+  GlobalFooterSocialMedia, 
+  GlobalFooterServices,
+  GlobalFooterHours,
+  GlobalFooterLegalLinks
+} from "@/tina/__generated__/types";
 
 export interface FooterClientProps {
-  data: any;
-  variables: {
-    relativePath: string;
-  };
+  data: GlobalQuery;
+  variables: GlobalQueryVariables;
   query: string;
 }
 
 export default function FooterClient(props: FooterClientProps) {
-  const { data } = useTina({
+  const { data } = useTina<GlobalQuery>({
     query: props.query,
     variables: props.variables,
     data: props.data,
@@ -42,7 +47,7 @@ export default function FooterClient(props: FooterClientProps) {
               </p>
               <div className="mt-6 flex space-x-4" data-tina-field={tinaField(footer, "socialMedia")}>
                 {/* Social Media Icons */}
-                {footer.socialMedia?.map((social: any, index: number) => {
+                {(footer.socialMedia?.filter(Boolean) as GlobalFooterSocialMedia[] | undefined)?.map((social, index: number) => {
                   let icon;
                   if (social.platform === 'facebook') {
                     icon = (
@@ -73,9 +78,9 @@ export default function FooterClient(props: FooterClientProps) {
                   return (
                     <a
                       key={index}
-                      href={social.url}
+                      href={social.url || ""}
                       className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-blue-700 hover:text-white"
-                      aria-label={social.platform}
+                      aria-label={social.platform || ""}
                       data-tina-field={tinaField(footer.socialMedia, index)}
                     >
                       {icon}
@@ -91,7 +96,7 @@ export default function FooterClient(props: FooterClientProps) {
                 {footer.servicesTitle || "Tjänster"}
               </h3>
               <ul className="mt-4 space-y-2">
-                {footer.services?.map((service: any, index: number) => (
+                {(footer.services?.filter(Boolean) as GlobalFooterServices[] | undefined)?.map((service, index: number) => (
                   <li key={service.id || index}>
                     <Link
                       href={`/${service.id}`}
@@ -122,7 +127,7 @@ export default function FooterClient(props: FooterClientProps) {
                 <li className="flex items-start">
                   <Icon name="location" size="sm" className="mr-3 mt-1 text-gray-400" />
                   <div className="text-gray-400">
-                    {footer.contact?.address?.map((line: string, i: number) => (
+                    {(footer.contact?.address?.filter(Boolean) as string[] | undefined)?.map((line, i: number) => (
                       <div key={i}>{line}</div>
                     ))}
                     <div>
@@ -139,7 +144,7 @@ export default function FooterClient(props: FooterClientProps) {
                 {footer.hoursTitle || "Öppettider"}
               </h3>
               <ul className="mt-4 space-y-3">
-                {footer.hours?.map((item: any, index: number) => (
+                {(footer.hours?.filter(Boolean) as GlobalFooterHours[] | undefined)?.map((item, index: number) => (
                   <li key={index} className="flex items-start">
                     <Icon name="clock" size="sm" className="mr-3 mt-1 text-gray-400" />
                     <div className="text-gray-400">
@@ -171,10 +176,10 @@ export default function FooterClient(props: FooterClientProps) {
               </a>
             </div>
             <div className="flex space-x-6" data-tina-field={tinaField(footer, "legalLinks")}>
-              {footer.legalLinks?.map((link: any, index: number) => (
+              {(footer.legalLinks?.filter(Boolean) as GlobalFooterLegalLinks[] | undefined)?.map((link, index: number) => (
                 <Link 
                   key={index} 
-                  href={link.href} 
+                  href={link.href || ""} 
                   className="text-sm text-gray-500 hover:text-white"
                   data-tina-field={tinaField(footer.legalLinks, index)}
                 >

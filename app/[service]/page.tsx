@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
       description: service.longDescription || '',
       keywords: `${service.title?.split('|')[0]?.trim() || ''}, elektriker, elinstallation, Sätila, ${(service.benefits || []).join(', ')}`,
     };
-  } catch (error) {
+  } catch (_error) {
     return {
       title: 'Tjänst hittades inte',
       description: 'Den begärda tjänsten kunde inte hittas.',
@@ -51,7 +51,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
     });
     
     return <ServiceClientPage {...result} />;
-  } catch (error) {
+  } catch (_error) {
     notFound();
   }
 }

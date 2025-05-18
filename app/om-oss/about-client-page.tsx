@@ -6,17 +6,23 @@ import Image from 'next/image';
 import Hero from '@/components/sections/Hero';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
+import {
+  PageQuery,
+  PageQueryVariables,
+  PageBlocks,
+  PageBlocksCompanyOverviewStats,
+  PageBlocksValuesValues,
+  PageBlocksTestimonialsTestimonials
+} from "@/tina/__generated__/types";
 
 export interface ClientPageProps {
-  data: any;
-  variables: {
-    relativePath: string;
-  };
+  data: PageQuery;
+  variables: PageQueryVariables;
   query: string;
 }
 
 export default function AboutClientPage(props: ClientPageProps) {
-  const { data } = useTina({
+  const { data } = useTina<PageQuery>({
     query: props.query,
     variables: props.variables,
     data: props.data,
@@ -26,7 +32,7 @@ export default function AboutClientPage(props: ClientPageProps) {
 
   return (
     <>
-      {blocks.map((block: any, i: number) => {
+      {blocks.map((block: PageBlocks | null, i: number) => {
         if (!block) return null;
         
         switch (block.__typename) {
@@ -70,7 +76,7 @@ export default function AboutClientPage(props: ClientPageProps) {
                         {block.description || ""}
                       </div>
                       <div className="mt-8 grid grid-cols-2 gap-8 border-t border-gray-200 pt-8">
-                        {block.stats?.map((stat: any, index: number) => (
+                        {(block.stats?.filter(Boolean) as PageBlocksCompanyOverviewStats[] | undefined)?.map((stat, index: number) => (
                           <div key={index}>
                             <p className="text-3xl font-bold text-blue-700">{stat.value}</p>
                             <p className="mt-2 text-gray-600">{stat.label}</p>
@@ -98,10 +104,10 @@ export default function AboutClientPage(props: ClientPageProps) {
                     </div>
                     
                     <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                      {block.values?.map((value: any, index: number) => (
+                      {(block.values?.filter(Boolean) as PageBlocksValuesValues[] | undefined)?.map((value, index: number) => (
                         <div key={index} className="rounded-lg bg-white p-8 shadow-sm">
                           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-700">
-                            {getIconForValue(value.icon)}
+                            {getIconForValue(value.icon || "")}
                           </div>
                           <h3 className="text-xl font-semibold text-gray-900">{value.title}</h3>
                           <p className="mt-4 text-gray-600">
@@ -133,7 +139,7 @@ export default function AboutClientPage(props: ClientPageProps) {
                       <div className="rounded-lg bg-white p-8 shadow-sm">
                         <h3 className="text-xl font-semibold text-gray-900">Våra certifieringar</h3>
                         <ul className="mt-4 space-y-3">
-                          {block.certifications?.map((cert: string, index: number) => (
+                          {(block.certifications?.filter(Boolean) as string[] | undefined)?.map((cert, index: number) => (
                             <li key={index} className="flex items-start">
                               <span className="mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
                                 <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -149,7 +155,7 @@ export default function AboutClientPage(props: ClientPageProps) {
                       <div className="rounded-lg bg-white p-8 shadow-sm">
                         <h3 className="text-xl font-semibold text-gray-900">Våra garantier</h3>
                         <ul className="mt-4 space-y-3">
-                          {block.guarantees?.map((guarantee: string, index: number) => (
+                          {(block.guarantees?.filter(Boolean) as string[] | undefined)?.map((guarantee, index: number) => (
                             <li key={index} className="flex items-start">
                               <span className="mr-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
                                 <svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -182,7 +188,7 @@ export default function AboutClientPage(props: ClientPageProps) {
                     </div>
                     
                     <div className="mt-12 flex justify-center">
-                      {block.testimonials?.map((testimonial: any, index: number) => (
+                      {(block.testimonials?.filter(Boolean) as PageBlocksTestimonialsTestimonials[] | undefined)?.map((testimonial, index: number) => (
                         <div key={index} className="rounded-lg bg-white p-8 shadow-sm max-w-xl w-full">
                           <div className="flex items-center">
                             <div className="flex text-yellow-400">
