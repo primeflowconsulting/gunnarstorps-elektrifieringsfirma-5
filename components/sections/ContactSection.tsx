@@ -3,12 +3,25 @@
 import React, { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import Section from '../ui/Section';
 import Icon from '../ui/Icon';
-import { contactInfo } from '@/lib/data';
+// Import contactInfo as a fallback
+import { contactInfo as defaultContactInfo } from '@/lib/data';
 import Notification from '../ui/Notification';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 type ContactSectionProps = {
   className?: string;
+  title?: string;
+  description?: string;
+  phone?: string;
+  email?: string;
+  address?: string[];
+  postalCode?: string;
+  city?: string;
+  hours?: {
+    days: string;
+    hours: string;
+  }[];
+  mapUrl?: string;
 };
 
 type FormData = {
@@ -26,7 +39,18 @@ type FormErrors = {
   general?: string;
 };
 
-export default function ContactSection({ className = '' }: ContactSectionProps) {
+export default function ContactSection({ 
+  className = '',
+  title = 'Kontakta oss',
+  description = 'Fyll i formuläret nedan så återkommer vi till dig så snart som möjligt.',
+  phone = defaultContactInfo.phone,
+  email = defaultContactInfo.email,
+  address = defaultContactInfo.address,
+  postalCode = defaultContactInfo.postalCode,
+  city = defaultContactInfo.city,
+  hours = defaultContactInfo.hours,
+  mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Härkilavägen+Gunnarstorp,51199+Sätila,Sweden`
+}: ContactSectionProps) {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -151,9 +175,9 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
       <div className="grid gap-12 md:grid-cols-2">
         {/* Contact Form */}
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Kontakta oss</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900">{title}</h2>
           <p className="mt-4 text-lg text-gray-600">
-            Fyll i formuläret nedan så återkommer vi till dig så snart som möjligt.
+            {description}
           </p>
 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -261,14 +285,14 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
               <Icon name="phone" className="mt-1 text-blue-700" />
               <div className="ml-4">
                 <p className="text-lg font-medium text-gray-900">Telefon</p>
-                <p className="mt-1 text-gray-600">{contactInfo.phone}</p>
+                <p className="mt-1 text-gray-600">{phone}</p>
               </div>
             </div>
             <div className="flex">
               <Icon name="email" className="mt-1 text-blue-700" />
               <div className="ml-4">
                 <p className="text-lg font-medium text-gray-900">E-post</p>
-                <p className="mt-1 text-gray-600">{contactInfo.email}</p>
+                <p className="mt-1 text-gray-600">{email}</p>
               </div>
             </div>
             <div className="flex">
@@ -276,11 +300,11 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
               <div className="ml-4">
                 <p className="text-lg font-medium text-gray-900">Adress</p>
                 <div className="mt-1 text-gray-600">
-                  {contactInfo.address.map((line, i) => (
+                  {address.map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
                   <p>
-                    {contactInfo.postalCode} {contactInfo.city}
+                    {postalCode} {city}
                   </p>
                 </div>
               </div>
@@ -290,7 +314,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
               <div className="ml-4">
                 <p className="text-lg font-medium text-gray-900">Öppettider</p>
                 <div className="mt-1 space-y-2 text-gray-600">
-                  {contactInfo.hours.map((item, index) => (
+                  {hours.map((item, index) => (
                     <div key={index}>
                       <p className="font-medium">{item.days}</p>
                       <p>{item.hours}</p>
@@ -304,7 +328,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
           {/* Google Maps */}
           <div className="mt-8 aspect-video w-full overflow-hidden rounded-lg">
             <iframe
-              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Härkilavägen+Gunnarstorp,51199+Sätila,Sweden`}
+              src={mapUrl}
               width="100%"
               height="100%"
               style={{ border: 0 }}

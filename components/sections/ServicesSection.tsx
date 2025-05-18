@@ -3,6 +3,7 @@ import Section from '../ui/Section';
 import ServiceCard from '../ui/ServiceCard';
 import Button from '../ui/Button';
 import { Service } from '@/lib/data';
+import { tinaField } from "tinacms/dist/react";
 
 type ServicesSectionProps = {
   title: string;
@@ -39,11 +40,21 @@ export default function ServicesSection({
 
         <div className="mt-12 grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-1">
-            <ServiceCard service={featured} variant="featured" className="h-full" />
+            <ServiceCard 
+              service={featured} 
+              variant="featured" 
+              className="h-full" 
+              tinaField={featured._tina_metadata ? tinaField(featured._tina_metadata.parent, 'serviceItems', featured._tina_metadata.index) : null}
+            />
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:col-span-2">
             {rest.slice(0, 4).map((service) => (
-              <ServiceCard key={service.id} service={service} variant="compact" />
+              <ServiceCard 
+                key={service.id} 
+                service={service} 
+                variant="compact" 
+                tinaField={service._tina_metadata ? tinaField(service._tina_metadata.parent, 'serviceItems', service._tina_metadata.index) : null}
+              />
             ))}
           </div>
         </div>
@@ -70,7 +81,11 @@ export default function ServicesSection({
 
       <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service) => (
-          <ServiceCard key={service.id} service={service} />
+          <ServiceCard 
+            key={service.id} 
+            service={service} 
+            tinaField={service._tina_metadata ? tinaField(service._tina_metadata.parent, 'serviceItems', service._tina_metadata.index) : null}
+          />
         ))}
       </div>
 

@@ -1,4 +1,7 @@
 import { defineConfig } from "tinacms";
+import Page from "./collection/page";
+import Service from "./collection/service";
+import Global from "./collection/global";
 
 // Your hosting provider likely exposes this as an environment variable
 const branch =
@@ -21,27 +24,30 @@ export default defineConfig({
   },
   media: {
     tina: {
-      mediaRoot: "",
+      mediaRoot: "images",
       publicFolder: "public",
     },
   },
   // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
+      Page,
+      Service,
+      Global,
       {
         name: "post",
         label: "Posts",
         path: "content/posts",
         fields: [
           {
-            type: "string",
+            type: "string" as const,
             name: "title",
             label: "Title",
             isTitle: true,
             required: true,
           },
           {
-            type: "rich-text",
+            type: "rich-text" as const,
             name: "body",
             label: "Body",
             isBody: true,

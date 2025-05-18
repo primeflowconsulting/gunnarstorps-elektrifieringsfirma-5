@@ -1,23 +1,18 @@
 import { Metadata } from 'next';
-import Hero from '@/components/sections/Hero';
-import ContactSection from '@/components/sections/ContactSection';
+import ContactClientPage from './contact-client-page';
+import { client } from '@/tina/__generated__/client';
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: 'Kontakta oss | Gunnarstorps Elektrifieringsfirma',
   description: 'Kontakta Gunnarstorps Elektrifieringsfirma för professionella eltjänster i Sätila. Vi erbjuder kostnadsfria offerter och snabb service.',
 };
 
-export default function ContactPage() {
-  return (
-    <>
-      <Hero
-        title="Kontakta oss"
-        subtitle="Vi är redo att hjälpa dig med alla dina elektriska behov. Kontakta oss idag för en kostnadsfri offert."
-        image="/images/An electrician holding wires.jpg"
-        primaryCta={{ text: 'Ring oss', href: 'tel:0707406116' }}
-      />
-      
-      <ContactSection />
-    </>
-  );
+export default async function ContactPage() {
+  const result = await client.queries.page({
+    relativePath: 'kontakt.mdx',
+  });
+
+  return <ContactClientPage {...result} />;
 }

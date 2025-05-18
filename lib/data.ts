@@ -8,6 +8,10 @@ export type Service = {
   image: string;
   heroImage: string;
   icon: string;
+  _tina_metadata?: {
+    parent: any;
+    index: number;
+  };
 };
 
 export type Location = {

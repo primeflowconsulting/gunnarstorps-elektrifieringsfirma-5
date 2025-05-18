@@ -14,12 +14,14 @@ export default function ServiceCard({
   service,
   variant = 'default',
   className = '',
-}: ServiceCardProps) {
+  tinaField = null,
+}: ServiceCardProps & { tinaField?: any }) {
   if (variant === 'compact') {
     return (
       <Link
         href={`/${service.id}`}
         className={`group block rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md ${className}`}
+        {...(tinaField ? { 'data-tina-field': tinaField } : {})}
       >
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -39,7 +41,10 @@ export default function ServiceCard({
 
   if (variant === 'featured') {
     return (
-      <div className={`group overflow-hidden rounded-xl bg-white shadow-lg ${className}`}>
+      <div 
+        className={`group overflow-hidden rounded-xl bg-white shadow-lg ${className}`}
+        {...(tinaField ? { 'data-tina-field': tinaField } : {})}
+      >
         <div className="relative h-64 w-full overflow-hidden">
           <Image
             src={service.image}
@@ -78,6 +83,7 @@ export default function ServiceCard({
     <Link
       href={`/${service.id}`}
       className={`group block overflow-hidden rounded-lg bg-white shadow-md transition-all hover:shadow-lg ${className}`}
+      {...(tinaField ? { 'data-tina-field': tinaField } : {})}
     >
       <div className="relative h-48 w-full overflow-hidden">
         <Image

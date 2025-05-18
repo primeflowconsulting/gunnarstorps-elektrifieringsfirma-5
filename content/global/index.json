@@ -1,0 +1,123 @@
+{
+  "header": {
+    "homeLabel": "Hem",
+    "servicesLabel": "Tjänster",
+    "aboutLabel": "Om oss",
+    "contactButtonLabel": "Kontakta oss",
+    "logo": "/images/Gunnarstorp-logga.png",
+    "logoWidth": 320,
+    "logoHeight": 80,
+    "services": [
+      {
+        "title": "Solenergi",
+        "id": "solenergi",
+        "icon": "sun"
+      },
+      {
+        "title": "Laddboxar",
+        "id": "laddboxar",
+        "icon": "charging-station"
+      },
+      {
+        "title": "Villainstallation",
+        "id": "villainstallation",
+        "icon": "home"
+      },
+      {
+        "title": "Elrenovering",
+        "id": "elrenovering",
+        "icon": "tools"
+      },
+      {
+        "title": "Omdragning av el",
+        "id": "omdragning-av-el",
+        "icon": "bolt"
+      },
+      {
+        "title": "Smart teknik",
+        "id": "smart-teknik",
+        "icon": "lightbulb"
+      },
+      {
+        "title": "Energibesparingar",
+        "id": "energi-besparingar",
+        "icon": "leaf"
+      }
+    ]
+  },
+  "footer": {
+    "companyName": "Gunnarstorps",
+    "description": "Vi arbetar med elinstallationer av både nya och gamla objekt med över 30 års erfarenhet.",
+    "socialMedia": [
+      {
+        "platform": "facebook",
+        "url": "#"
+      },
+      {
+        "platform": "instagram",
+        "url": "#"
+      }
+    ],
+    "servicesTitle": "Tjänster",
+    "services": [
+      {
+        "title": "Solenergi",
+        "id": "solenergi"
+      },
+      {
+        "title": "Laddboxar",
+        "id": "laddboxar"
+      },
+      {
+        "title": "Villainstallation",
+        "id": "villainstallation"
+      },
+      {
+        "title": "Elrenovering",
+        "id": "elrenovering"
+      },
+      {
+        "title": "Omdragning av el",
+        "id": "omdragning-av-el"
+      },
+      {
+        "title": "Smart teknik",
+        "id": "smart-teknik"
+      },
+      {
+        "title": "Energibesparingar",
+        "id": "energi-besparingar"
+      }
+    ],
+    "contactTitle": "Kontakt",
+    "contact": {
+      "phone": "070 740 61 16",
+      "email": "gunnarstorp1@gmail.com",
+      "address": ["Härkilavägen Gunnarstorp"],
+      "postalCode": "51199",
+      "city": "Sätila"
+    },
+    "hoursTitle": "Öppettider",
+    "hours": [
+      {
+        "days": "Måndag - Fredag",
+        "hours": "07:00 - 16:00"
+      },
+      {
+        "days": "Lördag - Söndag",
+        "hours": "Stängt"
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Integritetspolicy",
+        "href": "/integritetspolicy"
+      },
+      {
+        "label": "Cookies",
+        "href": "/cookies"
+      }
+    ],
+    "copyright": "© {year} Gunnarstorps Elektrifieringsfirma. Alla rättigheter förbehållna."
+  }
+}
